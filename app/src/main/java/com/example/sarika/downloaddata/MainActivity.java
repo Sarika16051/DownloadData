@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder sb1 = new StringBuilder();
         String result = "";
         String text = "";
-        //Log.d(TAG, "File : " + file);
+
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = "";
