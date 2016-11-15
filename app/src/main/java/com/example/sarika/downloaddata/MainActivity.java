@@ -1,8 +1,10 @@
 package com.example.sarika.downloaddata;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -48,14 +50,20 @@ public class MainActivity extends AppCompatActivity {
         try {
             url = new URL(urlString);
         } catch (Exception e) {
-
+            Log.d("MAINACTIVITY", "error getting url");
         }
 
         startDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                displayToast();
-                new DownloadFile().execute(url);
+
+                boolean connectionAvailable = getConnectionAvailabilty();
+                if (connectionAvailable == false) {
+                    noConnectionToast();
+                } else {
+                    displayToast();
+                    new DownloadFile().execute(url);
+                }
             }
         });
 
@@ -75,8 +83,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public boolean getConnectionAvailabilty() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     public void displayToast() {
         Toast.makeText(this, "Starting download", Toast.LENGTH_SHORT).show();
+    }
+
+    public void noConnectionToast() {
+        Toast.makeText(this, "Internet Connection not available", Toast.LENGTH_SHORT).show();
     }
 
     public void displayNullToast() {
@@ -108,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                     sb.append(line + "");
                     counts++;
                     if (counts == 1) {
-                        Toast.makeText(this, "I am in " + line, Toast.LENGTH_SHORT).show();
                         sb1.append(line);
                     }
 
@@ -232,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, line.replaceAll("<[^>]*>", ""));
                 }
                 br.close();
+                Toast.makeText(MainActivity.this, "Download Completed", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 Log.d(TAG, "Error occured.... " + e);
             }

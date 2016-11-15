@@ -1,7 +1,6 @@
 package com.example.sarika.downloaddata;
 
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,17 +36,21 @@ public class ShowDetails extends AppCompatActivity {
         showDetail = (TextView) findViewById(R.id.viewDetail);
 
         String titleDetail = "";
+        //getting Title from main activity
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             titleDetail = bundle.getString("Data");
         }
 
         String detail = getDetail();
+
+        //setting values in the textView
         showTitle.setText(titleDetail);
         showDetail.setText(detail);
 
     }
 
+    //this method will return one paragraph from the downloaded file to display on activity and the complete content is printed on console
     public String getDetail() {
         File file = new File("/sdcard/about.txt");
         StringBuilder sb = new StringBuilder();
@@ -73,21 +75,14 @@ public class ShowDetails extends AppCompatActivity {
                 if (!checkLine.equals("")) {
                     sb.append(line + "");
                     counts++;
-                    if (counts == 1) {
-                        //Toast.makeText(this,"I am in "+line,Toast.LENGTH_SHORT).show();
-                        //sb1.append(line);
-                    }
                     if (line.contains("Indraprastha Institute of Information Technology, Delhi (")) {
-
                         p = 1;
-                        //Toast.makeText(this, "I am in Indraprastha", Toast.LENGTH_SHORT).show();
                     }
 
                     if (p == 1) {
                         sb1.append(line);
                         if (line.contains("far")) {
                             p = 0;
-                            //Toast.makeText(this,"I am in far",Toast.LENGTH_SHORT).show();
                         }
                     }
 

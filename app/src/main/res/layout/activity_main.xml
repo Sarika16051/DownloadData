@@ -27,7 +27,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="151dp"
             android:background="@drawable/buttonstyle"
-            android:text="Start Download" />
+            android:text="@string/start_Download" />
 
         <Button
             android:id="@+id/showData"
@@ -37,7 +37,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="68dp"
             android:background="@drawable/buttonstyle"
-            android:text="Show Data" />
+            android:text="@string/show_DownloadedData" />
 
     </RelativeLayout>
 </ScrollView>
